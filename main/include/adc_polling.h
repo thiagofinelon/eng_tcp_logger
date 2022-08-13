@@ -10,9 +10,12 @@
 #include "esp_adc_cal.h"
 
 #define DEFAULT_VREF    1100      
-#define NO_OF_SAMPLES   64          
+#define NO_OF_SAMPLES   64     
 
-
+typedef struct
+{
+    float reading
+} adc_message_t;
 
 void adc_polling(void *args);
 

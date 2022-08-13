@@ -12,8 +12,6 @@ const adc_unit_t unit = ADC_UNIT_1;
  */
 void adc_polling(void *args)
 {
-    //check_efuse();
-
     adc1_config_width(width);
     adc1_config_channel_atten(channel, atten);
 
@@ -25,14 +23,12 @@ void adc_polling(void *args)
 
     adc_chars = calloc(1, sizeof(esp_adc_cal_characteristics_t));
     esp_adc_cal_characterize(unit, atten, width, DEFAULT_VREF, adc_chars);
-    //print_char_val_type(val_type);
 
     uint32_t voltage = 0;
     uint32_t adc_reading = 0;
     while (1)
     {
         adc_reading = 0;
-        // Multisampling
         for (int i = 0; i < NO_OF_SAMPLES; i++)
         {
            
@@ -41,7 +37,6 @@ void adc_polling(void *args)
         adc_reading /= NO_OF_SAMPLES;
         voltage = esp_adc_cal_raw_to_voltage(adc_reading, adc_chars);
 
-        printf("Raw: %d\tVoltage: %dmV\n", adc_reading, voltage);
-        vTaskDelay(pdMS_TO_TICKS(1000));
+        vTaskDelay(pdMS_TO_TICKS(5000));
     }
 }
