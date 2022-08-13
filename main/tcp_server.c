@@ -78,6 +78,9 @@ static bool process_cmd(uint8_t *buffer, int *length)
     if (cmd == TURN_OFF || cmd == TURN_ON || cmd == TOGGLE)
     {
         xQueueSend(led_cmd_q, &evt, pdMS_TO_TICKS(10));
+        strcpy((char*)buffer, "ACK");
+        *length =  strlen((char*)buffer);
+        return true;
     }
 
     else if (cmd == LOOP_BACK)
