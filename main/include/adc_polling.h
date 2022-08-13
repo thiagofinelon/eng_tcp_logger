@@ -14,8 +14,6 @@
 #define DEFAULT_VREF    1100      
 #define NO_OF_SAMPLES   64     
 
-
-
 void adc_polling(void *args);
 
 #endif

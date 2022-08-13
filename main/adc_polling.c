@@ -38,7 +38,7 @@ void adc_polling(void *args)
         }
         adc_reading /= NO_OF_SAMPLES;
         voltage = esp_adc_cal_raw_to_voltage(adc_reading, adc_chars);
-        adc.reading = voltage / 1000.0;
+        adc.reading = voltage;
 
         xQueueSend(adc_read_q, &adc, 0);
         vTaskDelay(pdMS_TO_TICKS(1000));

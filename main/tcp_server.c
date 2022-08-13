@@ -1,11 +1,3 @@
-/* BSD Socket API Example
-
-   This example code is in the Public Domain (or CC0 licensed, at your option.)
-
-   Unless required by applicable law or agreed to in writing, this
-   software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-   CONDITIONS OF ANY KIND, either express or implied.
-*/
 #include <string.h>
 #include <sys/param.h>
 #include "freertos/FreeRTOS.h"
@@ -37,7 +29,7 @@ static bool process_cmd(uint8_t *buffer, int *length)
     uint8_t *args = NULL;
     uint8_t cmd = 0;
     uint8_t current_byte = 0;
-    uint8_t args_counter = 0;
+    int args_counter = 0;
     uint32_t check_sum = 0;
     uint32_t received_check_sum = buffer[len - 1];
 
@@ -47,7 +39,7 @@ static bool process_cmd(uint8_t *buffer, int *length)
         check_sum += buffer[i];
     }
 
-    ESP_LOGI(TAG, "%X  | %X", check_sum & 0xFF, received_check_sum);
+    ESP_LOGI(TAG, "\n%X  | %X", check_sum & 0xFF, received_check_sum);
 
     if ((check_sum & 0xFF) != received_check_sum)
     {
@@ -59,18 +51,22 @@ static bool process_cmd(uint8_t *buffer, int *length)
         return false;
     }
 
-    ESP_LOGI(TAG, "VALID");
 
     cmd = buffer[1];
-    args_counter = buffer[2];
+    args_counter = (int)buffer[2];
+
+    ESP_LOGI(TAG, "VALID WITH %d", args_counter);
+
     if (args_counter > 0)
     {
-        args = malloc(sizeof(1) * args_counter);
-        for (int i = 3; i < len - 1; i++)
+        args = malloc(sizeof(uint8_t) * args_counter);
+        for (int i = 3; i < 3 + args_counter; i++)
         {
             args[i - 3] = buffer[i];
+            printf("%02X", args[i - 3]);
         }
     }
+
 
     evt.cmd = cmd;
     memcpy(evt.args, args, len - 4);
@@ -104,7 +100,7 @@ static bool process_cmd(uint8_t *buffer, int *length)
             free(args);
         }
 
-        sprintf((char*)buffer, "%2.2f", adc.reading);
+        sprintf((char*)buffer, "%04u", adc.reading);
         *length =  strlen((char*)buffer);
 
         return true;

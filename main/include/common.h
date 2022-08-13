@@ -21,7 +21,7 @@ enum{
 
 typedef struct
 {
-    float reading
+    uint16_t reading
 } adc_message_t;
 
 typedef struct
