@@ -1,17 +1,18 @@
 #include <stdio.h>
-#include "include/adc_polling.h"
-#include "include/led_control.h"
 #include "include/common.h"
+#include "include/led_control.h"
+#include "include/adc_polling.h"
 
 void app_main(void)
 {
     queue_init();
 
-    xTaskCreate(adc_polling, "adc_read", 4096, NULL, 8, NULL);
-    xTaskCreate(led_io_control, "led_contrl", 4096, NULL, 8, NULL);
+    xTaskCreatePinnedToCore(control_led, "ctrl_led", 8192, NULL, 5 , NULL, 1);
+    xTaskCreatePinnedToCore(adc_polling, "adc_read", 8192, NULL, 5 , NULL, 1);
+   
 
     while (1)
-    {
-        vTaskDelay(1);
+    {   
+        vTaskDelay(pdMS_TO_TICKS(1000));
     }
 }

@@ -9,20 +9,10 @@
 #include "freertos/queue.h"
 #include "driver/gpio.h"
 
-#define LED_OUTPUT  2
+#define LED_OUTPUT GPIO_NUM_2
+#define LED_OUTPUT_MASK (1ULL << LED_OUTPUT)
 
-typedef struct
-{
-    uint8_t cmd
-} led_command_t;
-
-enum{
-    TURN_ON = 0,
-    TURN_OFF,
-    TOGGLE
-}LED_COMMANDS;
-
-void led_io_control(void *args);
+void control_led(void *args);
 
 
 #endif

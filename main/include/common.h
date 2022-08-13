@@ -11,6 +11,17 @@
 extern QueueHandle_t adc_read_q;
 extern QueueHandle_t led_cmd_q;
 
+enum{
+    TURN_ON = 0,
+    TURN_OFF,
+    TOGGLE
+}LED_COMMANDS;
+
+typedef struct
+{
+    uint8_t cmd
+} led_command_t;
+
 void queue_init();
 
 #endif

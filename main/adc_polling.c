@@ -1,4 +1,5 @@
 #include "include/adc_polling.h"
+#include "esp_log.h"
 
 esp_adc_cal_characteristics_t *adc_chars;
 const adc_channel_t channel = ADC_CHANNEL_6;
@@ -26,17 +27,18 @@ void adc_polling(void *args)
 
     uint32_t voltage = 0;
     uint32_t adc_reading = 0;
+    led_command_t test;
     while (1)
     {
         adc_reading = 0;
         for (int i = 0; i < NO_OF_SAMPLES; i++)
         {
-           
+    
             adc_reading += adc1_get_raw((adc1_channel_t)channel);
         }
         adc_reading /= NO_OF_SAMPLES;
         voltage = esp_adc_cal_raw_to_voltage(adc_reading, adc_chars);
 
-        vTaskDelay(pdMS_TO_TICKS(5000));
+        vTaskDelay(pdMS_TO_TICKS(1000));
     }
 }
