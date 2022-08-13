@@ -14,7 +14,7 @@ void control_led(void *args)
     gpio_set_level(LED_OUTPUT, 0);
 
     uint8_t current_level = 0;
-    led_command_t event;
+    command_t event;
     while(1)
     {
         xQueueReceive(led_cmd_q, &event, portMAX_DELAY);

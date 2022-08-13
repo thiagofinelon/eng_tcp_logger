@@ -13,5 +13,5 @@ QueueHandle_t led_cmd_q;
 void queue_init()
 {
     adc_read_q = xQueueCreate(1, sizeof(adc_message_t));
-    led_cmd_q = xQueueCreate(10, sizeof(led_command_t));
+    led_cmd_q = xQueueCreate(1, sizeof(command_t));
 }

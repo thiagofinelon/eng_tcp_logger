@@ -14,13 +14,21 @@ extern QueueHandle_t led_cmd_q;
 enum{
     TURN_ON = 0,
     TURN_OFF,
-    TOGGLE
-}LED_COMMANDS;
+    TOGGLE,
+    LOOP_BACK,
+    ADC_READ
+}COMMANDS;
 
 typedef struct
 {
-    uint8_t cmd
-} led_command_t;
+    float reading
+} adc_message_t;
+
+typedef struct
+{
+    uint8_t cmd;
+    uint8_t args[128];
+} command_t;
 
 void queue_init();
 
